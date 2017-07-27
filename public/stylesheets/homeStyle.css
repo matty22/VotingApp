@@ -1,0 +1,70 @@
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3f51b5;
+  color: #ffffff;
+  padding-left: 20px;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  padding-right: 20px;
+  font-size: 20px;
+}
+
+nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  color: #ffed89;
+}
+
+nav ul li:first-child a {
+  color: gold;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.card {
+  max-width: 400px;
+  background-color: #3f51b5;
+  color: #ffffff;
+  padding: 50px 50px;
+  text-align: center;
+  font-size: 24px;
+}
+
+/* Bump up size of FA icons */
+.fa {
+  font-size: 3em;
+}
+
+footer {
+  background-color: #ebebeb;
+}
+
+footer p {
+  text-align: center;
+}
