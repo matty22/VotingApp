@@ -3,14 +3,12 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('polls');
+  res.render('../public/polls');
 });
 
 router.get('/:id', function(req, res, next) {
   // res.set('Content-Type', 'application/javascript');
-  var id = req.params.id;
-  console.log(id);
-  res.render('poll', { id: id });
+  res.end('Will send details of poll number ' + req.params.id + ' to you');
 });
 
 module.exports = router;

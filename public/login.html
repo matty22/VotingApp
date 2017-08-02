@@ -13,7 +13,7 @@
     <title>The Vote-tastic Voting Machine</title>
 
     <!-- Styles for Sign in page -->
-    <link rel="stylesheet" href="../stylesheets/signinStyle.css">
+    <link rel="stylesheet" href="../stylesheets/loginStyle.css">
   </head>
 
   <body>
@@ -24,14 +24,19 @@
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/polls">Polls</a></li>
-          <li><a href="/signin">Signin</a></li>
-          <li><a href="/signup">Signup</a></li>
+          <li><a href="/users/login">Signin</a></li>
+          <li><a href="/users/signup">Signup</a></li>
         </ul>
       </nav>
     </header>
     <!-- INSTRUCTION BLOCKS -->
     <main>
-      signin content goes here
+      <form id="loginForm">
+        <h2>Log in to vote in the Vote-tastic Voting Machine!</h2>
+        <input type="text" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button type="submit">Log In!</button>
+      </form>
     </main>
     <footer>
       <p>&copy; 2017 Matt Leonard</p>
