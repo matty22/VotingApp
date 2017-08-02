@@ -4,6 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var MongoClient = require('mongodb').MongoClient;
+// Database Connection URL
+var dbUrl = process.env.MONGOURL;
 
 var index = require('./routes/index');
 var polls = require('./routes/polls');
