@@ -1,0 +1,19 @@
+
+#pollTitle {
+  align-self: center;
+}
+
+#mainBody {
+  display: flex;
+  justify-content: space-around;
+}
+
+canvas {
+  max-width: 400px;
+  max-height: 400px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}

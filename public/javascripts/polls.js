@@ -8,7 +8,7 @@ window.onload = function() {
           var pollsData = JSON.parse(xhr.responseText);
           pollsData.forEach(function(element) {
             var cardChild = document.createElement("div");
-            cardChild.innerHTML = "<h4>" + element.title + "</h4>" + "<a href='/polls/" + element.id + "'><i class='fa fa-check'></i> Vote</a>";
+            cardChild.innerHTML = "<h4>" + element.title + "</h4>" + "<a href='/polls/" + element._id + "'><i class='fa fa-check'></i> Vote</a>";
             document.getElementById("mainBody").appendChild(cardChild);
           });
         }

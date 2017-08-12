@@ -8,12 +8,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <script src="https://use.fontawesome.com/99ba5fce52.js"></script>
-
     <title>The Vote-tastic Voting Machine</title>
-
-    <!-- Styles for polls page -->
+    <!-- Styles for poll page -->
     <link rel="stylesheet" href="../stylesheets/pollsStyle.css">
+    <link rel="stylesheet" href="../stylesheets/pollStyle.css">
   </head>
 
   <body>
@@ -29,8 +29,16 @@
         </ul>
       </nav>
     </header>
+    <h3 id="pollTitle"></h3>
     <main id="mainBody">
-      poll page
+      <canvas id="myChart" width="400" height="400"></canvas>
+      <div>
+        <form action="">
+          <input type="radio" name="voting" value="Option 1">Option 1</input>
+          <input type="radio" name="voting" value="Option 2">Option 2</input>
+          <input type="radio" name="voting" value="Option 3">Option 3</input>
+        </form>
+      </div>
     </main>
     <footer>
       <p>&copy; 2017 Matt Leonard</p>
