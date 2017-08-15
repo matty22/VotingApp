@@ -3,23 +3,56 @@
 
 window.onload = function() {
     // Peel off the last part of the URI path to find the poll id
-    const pollNumber = window.location.pathname.split("/").pop();
+    let pollNumber = window.location.pathname.split("/").pop();
+    var actionPath = "/polls/" + pollNumber + "/data";
+    document.getElementById("pollOptionsForm").setAttribute("action", actionPath);
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
     xhr.onload = function() {
         if (xhr.status === 200) {
           var singlePollData = JSON.parse(xhr.responseText);
-        //   console.log(singlePollData);
           if (singlePollData) {
             // Insert elements to the DOM
             document.getElementById('pollTitle').innerHTML = singlePollData.title;
-            // NEXT JOB - ADD <OPTION> ELEMENTS TO FORM IN HTML PAGE USING .FOREACH
+            singlePollData.data.labels.forEach(function(element) {
+                
+                // Create input for each poll option
+                var inputChild = document.createElement("input");
+                inputChild.setAttribute("type", "radio");
+                inputChild.setAttribute("value", element);
+                inputChild.setAttribute("id", element);
+                inputChild.setAttribute("name", "pollOption");
+                
+                // Create and label for each input
+                var labelChild = document.createElement("label");
+                labelChild.setAttribute("for", element)
+                labelChild.innerHTML = element;
+                
+                // Create span element to wrap each set of 
+                // input and labels for flexbox layout purposes
+                var divChild = document.createElement("span");
+                divChild.setAttribute("id", element);
+                
+                // Append all these new elements to DOM
+                document.getElementById("pollOptionsForm").appendChild(divChild);
+                document.getElementById(element).appendChild(inputChild);
+                document.getElementById(element).appendChild(labelChild);
+            });
+            
+            // Create and append form submit button
+            var submitButton = document.createElement("input");
+            submitButton.setAttribute("type", "button");
+            submitButton.setAttribute("form", "pollOptionsForm");
+            submitButton.setAttribute("value", "Submit Vote");
+            submitButton.setAttribute("onclick", "userVoted()")
+            submitButton.innerHTML = "<i class='fa fa-check'></i> Submit Vote";
+            document.getElementById("pollOptionsForm").appendChild(submitButton);
+            
             // ChartJS code
             var ctx = document.getElementById("myChart");
               var myChart = new Chart(ctx, {
                   type: 'doughnut',
                   data: singlePollData.data,
-                //   backgroundColor: ["#ff0000", "#00ff00", "#0000ff"]
                   }
               );
           }
@@ -36,6 +69,39 @@ window.onload = function() {
     xhr.send();
 }
 
+// Function that takes user votes on /polls/:id page and sends to Express put route
+function userVoted(form) {
+    let pollNumber = window.location.pathname.split("/").pop();
+    for (let i = 0; i <= document.forms[0].length - 1; i++) {
+        if (document.forms[0][i].checked) {
+            var userVoteIndex = i;
+            
+            // Setup data object to send to Express route
+            var data = {};
+            data.pollId = +pollNumber;
+            data.userVoteIndex = userVoteIndex;
+            var json = JSON.stringify(data);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('PUT', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
+            xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Figure out how to add poll data to mongo data
+                    console.log(JSON.parse(xhr.responseText));
+                }
+                else {
+                    console.error("you suck: poll.js page");
+                }
+            }
+            xhr.send(json);
+        }
+    }
+}
+
+
+
+
 // Example data set for Mongo
 // [
     // {"_id":0,"title":"What is your favorite Nic Cage movie?", "data": {"labels": ["The Rock", "Ghost Rider", "Gone in 60 Seconds", "Con-Air", "The Weatherman", "National Treasure", "National Treasure 2", "Bad Lieutenant"], "datasets": [{"data": [5, 8, 12, 14, 2, 1, 7, 15], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
@@ -49,13 +115,3 @@ window.onload = function() {
     // {"_id":8,"title":"How much wood could a woodchuck chuck...", "data": {"labels": ["I'm confused", "A lot of wood", "Not much wood"], "datasets": [{"data": [6, 2, 4], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
     // {"_id":9,"title":"What is the best cookie?", "data": {"labels": ["Chocolate Chip", "Oatmeal Raisin", "Sugar"], "datasets": [{"data": [6, 5, 4], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}}
 // ]
-
-// generateColors(singlePollData.data.labels.length)
-function generateColors(dataLength) {
-    let colorSet = ["#ff0000", "#0000ff", "#00ff00", "#f0f0f0"];
-    let selectedColors = [];
-    for (let i = 0; i < dataLength; i++) {
-        selectedColors.push(colorSet[i]);
-    }
-    return selectedColors;
-}

@@ -57,6 +57,11 @@ pollRouter.route('/:id/data')
           // Not finished
           .put(function(req, res, next) {
               //FINISH PUT METHOD HERE
+              Polls.findById(req.body.pollId, function(err, poll) {
+                if (err) throw err;
+                // var pollObj = JSON.parse(poll);
+                res.json(poll.datasets);
+              });
           })
           // Method to delete individual poll
           .delete(function(req, res, next) {
