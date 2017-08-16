@@ -1,5 +1,5 @@
 
-
+// Fetch polls data from database on page load
 window.onload = function() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://localhost:3000/polls/data', true);

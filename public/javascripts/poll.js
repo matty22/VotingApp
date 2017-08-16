@@ -1,6 +1,6 @@
 
 
-
+var singlePollData;
 window.onload = function() {
     // Peel off the last part of the URI path to find the poll id
     let pollNumber = window.location.pathname.split("/").pop();
@@ -10,33 +10,33 @@ window.onload = function() {
     xhr.open('GET', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
     xhr.onload = function() {
         if (xhr.status === 200) {
-          var singlePollData = JSON.parse(xhr.responseText);
+          singlePollData = JSON.parse(xhr.responseText);
+          console.log(singlePollData);
           if (singlePollData) {
             // Insert elements to the DOM
             document.getElementById('pollTitle').innerHTML = singlePollData.title;
-            singlePollData.data.labels.forEach(function(element) {
-                
+            singlePollData.answers.forEach(function(element) {
                 // Create input for each poll option
                 var inputChild = document.createElement("input");
                 inputChild.setAttribute("type", "radio");
-                inputChild.setAttribute("value", element);
-                inputChild.setAttribute("id", element);
+                inputChild.setAttribute("value", element.label);
+                inputChild.setAttribute("id", element.label);
                 inputChild.setAttribute("name", "pollOption");
                 
                 // Create and label for each input
                 var labelChild = document.createElement("label");
-                labelChild.setAttribute("for", element)
-                labelChild.innerHTML = element;
+                labelChild.setAttribute("for", element.label)
+                labelChild.innerHTML = element.label;
                 
                 // Create span element to wrap each set of 
                 // input and labels for flexbox layout purposes
-                var divChild = document.createElement("span");
-                divChild.setAttribute("id", element);
+                var spanChild = document.createElement("span");
+                spanChild.setAttribute("id", element.label);
                 
                 // Append all these new elements to DOM
-                document.getElementById("pollOptionsForm").appendChild(divChild);
-                document.getElementById(element).appendChild(inputChild);
-                document.getElementById(element).appendChild(labelChild);
+                document.getElementById("pollOptionsForm").appendChild(spanChild);
+                document.getElementById(element.label).appendChild(inputChild);
+                document.getElementById(element.label).appendChild(labelChild);
             });
             
             // Create and append form submit button
@@ -48,12 +48,32 @@ window.onload = function() {
             submitButton.innerHTML = "<i class='fa fa-check'></i> Submit Vote";
             document.getElementById("pollOptionsForm").appendChild(submitButton);
             
+            // Restructure Mongo document to work with ChartJS
+            let chartDataObj = {
+                labels: [],
+                datasets: [{
+                    data: []
+                }]
+            }
+            singlePollData.answers.forEach(function(element){
+                chartDataObj.labels.push(element.label);
+                chartDataObj.datasets[0].data.push(element.votes);
+            });
+
+            console.log(chartDataObj);
+
             // ChartJS code
             var ctx = document.getElementById("myChart");
               var myChart = new Chart(ctx, {
                   type: 'doughnut',
-                  data: singlePollData.data,
+                  data: {
+                      labels: chartDataObj.labels,
+                      datasets: [{
+                            data: chartDataObj.votes,
+                            backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]
+                        }]
                   }
+                }
               );
           }
           // If there is no poll with the ID from the path
@@ -70,17 +90,17 @@ window.onload = function() {
 }
 
 // Function that takes user votes on /polls/:id page and sends to Express put route
-function userVoted(form) {
+function userVoted() {
     let pollNumber = window.location.pathname.split("/").pop();
     for (let i = 0; i <= document.forms[0].length - 1; i++) {
         if (document.forms[0][i].checked) {
             var userVoteIndex = i;
+            singlePollData.data.datasets[0].data[i] = singlePollData.data.datasets[0].data[i] + 1;
             
             // Setup data object to send to Express route
-            var data = {};
-            data.pollId = +pollNumber;
-            data.userVoteIndex = userVoteIndex;
-            var json = JSON.stringify(data);
+            // Figure out how to make this not a circular object?
+            console.log(singlePollData);
+            var json = JSON.stringify(singlePollData);
 
             var xhr = new XMLHttpRequest();
             xhr.open('PUT', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
@@ -115,3 +135,6 @@ function userVoted(form) {
     // {"_id":8,"title":"How much wood could a woodchuck chuck...", "data": {"labels": ["I'm confused", "A lot of wood", "Not much wood"], "datasets": [{"data": [6, 2, 4], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
     // {"_id":9,"title":"What is the best cookie?", "data": {"labels": ["Chocolate Chip", "Oatmeal Raisin", "Sugar"], "datasets": [{"data": [6, 5, 4], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}}
 // ]
+
+// Example flatten data object for Mongo
+// {"_id":0, "title":"What is your favourite Nic Cage movie?","answers":[{"label":"The Rock","votes": 5},{"label":"Ghost Rider","votes": 8},{"label":"Con-Air","votes": 14},{"label":"Gone in 60 Seconds","votes": 12},{"label":"The Weatherman","votes": 3},{"label":"National Treasure","votes": 19},{"label":"National Treasure 2","votes": 7},{"label":"Bad Lieutenant","votes": 2}]}

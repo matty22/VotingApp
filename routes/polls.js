@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var util = require('util');
 
 // Set up Mongoose schema
 var Polls = require('../models/polls');
@@ -57,10 +58,10 @@ pollRouter.route('/:id/data')
           // Not finished
           .put(function(req, res, next) {
               //FINISH PUT METHOD HERE
-              Polls.findById(req.body.pollId, function(err, poll) {
+              Polls.findByIdAndUpdate(req.body._id, { $set: req.body }, function(err, poll) {
                 if (err) throw err;
-                // var pollObj = JSON.parse(poll);
-                res.json(poll.datasets);
+                util.inspect(poll)
+                res.json(poll);
               });
           })
           // Method to delete individual poll
