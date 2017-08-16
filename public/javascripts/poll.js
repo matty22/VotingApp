@@ -66,6 +66,7 @@ window.onload = function() {
             var ctx = document.getElementById("myChart");
               var myChart = new Chart(ctx, {
                   type: 'doughnut',
+                  // FIX HERE
                   data: {
                       labels: chartDataObj.labels,
                       datasets: [{
