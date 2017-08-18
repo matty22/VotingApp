@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var idTracker = 10;
 
 // Set up Mongoose schema
 var Polls = require('../models/polls');
@@ -21,12 +22,21 @@ pollRouter.route('/data')
               if (err) throw err;
               res.json(poll);
             });
-          })
+          });
+
+// Route to render addpolls.html
+pollRouter.get('/add', function(req, res, next) {
+  res.render('../public/addpoll');
+});
+
+// Route for client JS to hit to post new polls
+pollRouter.route('/add/data')
           // Method to create new poll
           .post(function(req, res, next) {
-            Polls.create(req.body, function(err, poll) {
+            Polls.create({_id: idTracker, title: req.body.title, answers: req.body.answers}, function(err, poll) {
               if (err) throw err;
-              // FINISH POST METHOD HERE
+              idTracker = idTracker + 1;
+              res.send({redirect: '/polls'});
             });
           });
 

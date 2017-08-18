@@ -3,11 +3,6 @@
   align-self: center;
 }
 
-#mainBody {
-  display: flex;
-  justify-content: space-around;
-}
-
 canvas {
   max-width: 400px;
   max-height: 400px;
@@ -22,11 +17,23 @@ form span {
   margin-bottom: 5px;
 }
 
+#pollQuestionField {
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid #5a5a5a;
+  padding: 10px 5px;
+  font-size: 16px;
+}
+
 input[type="button"] {
   margin-top: 15px;
   font-size: 16px;
   border: 0;
-  padding: 10px 0px;
+  padding: 10px 5px;
   background-color: gold;
   color: #000000;
   transition: 0.3s;

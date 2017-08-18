@@ -115,7 +115,7 @@ function buildChart(dataObj) {
               labels: chartDataObj.labels,
               datasets: [{
                     data: chartDataObj.data,
-                    backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]
+                    backgroundColor: ["#9c27b0", "#ff5722", "#2196f3", "#795548", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]
                 }]
           }
         }

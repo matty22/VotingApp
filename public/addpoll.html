@@ -8,7 +8,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <title>The Vote-tastic Voting Machine</title>
     <!-- Styles for poll page -->
     <link rel="stylesheet" href="../stylesheets/pollsStyle.css">
@@ -28,17 +27,21 @@
         </ul>
       </nav>
     </header>
-    <h2 id="pollTitle"></h2>
+    <h3 id="pollTitle"></h3>
     <main id="mainBody">
-      <canvas id="myChart" width="400" height="400"></canvas>
       <div>
-        <form id="pollOptionsForm" method="put">
+        <form id="newPollForm" method="put">
+          <input id="pollQuestionField" type="text" placeholder="Enter poll question">
+          <input id="answer1" type="text" placeholder="Enter poll answer">
+          <input id="answer2" type="text" placeholder="Enter poll answer">
+          <input id="addOptionButton" type="button" value="Add another poll answer" onclick="addPollAnswer()">
+          <input id="newPollSubmit" type="button" value="Save Poll" onclick="pollCreated()">
         </form>
       </div>
     </main>
     <footer>
       <p>&copy; 2017 Matt Leonard</p>
     </footer> 
-    <script type="text/javascript" src="/javascripts/poll.js"></script>
+    <script type="text/javascript" src="/javascripts/addpoll.js"></script>
   </body>
 </html>
