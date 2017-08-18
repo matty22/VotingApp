@@ -11,8 +11,12 @@ var pollSchema = new Schema({
   _id: {
     type: Number,
     required: true
-  }
-}, {
+  },
+  answers: {
+    type: Array,
+    required: true
+  }}, 
+{
   timestamps: true
 });
 

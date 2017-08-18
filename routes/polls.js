@@ -1,22 +1,12 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var util = require('util');
 
 // Set up Mongoose schema
 var Polls = require('../models/polls');
 
 var pollRouter = express.Router();
 pollRouter.use(bodyParser.json());
-
-// Commented to try out a two route tactic
-// pollRouter.route('/')
-//           .get(function(req, res, next) {
-//             Polls.find({}, function(err, poll) {
-//               if (err) throw err;
-//               res.json(poll);
-//             });
-//           });
 
 // Route to render polls.html page
 pollRouter.get('/', function(req, res, next) {
@@ -55,10 +45,9 @@ pollRouter.route('/:id/data')
             });
           })
           // Method to edit individual poll
-          // Not finished
           .put(function(req, res, next) {
               //FINISH PUT METHOD HERE
-              Polls.findByIdAndUpdate(req.body._id, { $set: req.body }, function(err, poll) {
+              Polls.findByIdAndUpdate(req.body._id, { $set: req.body }, { new: true }, function(err, poll) {
                 if (err) throw err;
                 res.json(poll);
               });

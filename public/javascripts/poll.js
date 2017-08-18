@@ -47,32 +47,9 @@ window.onload = function() {
             submitButton.setAttribute("onclick", "userVoted()")
             submitButton.innerHTML = "<i class='fa fa-check'></i> Submit Vote";
             document.getElementById("pollOptionsForm").appendChild(submitButton);
-            
-            // Restructure Mongo document to work with ChartJS
-            let chartDataObj = {
-                labels: [],
-                data: []
-            }
-           
-             singlePollData.answers.forEach(function(element){
-                chartDataObj.labels.push(element.label);
-                chartDataObj.data.push(element.votes);
-            });
 
-            // ChartJS code
-            var ctx = document.getElementById("myChart");
-              var myChart = new Chart(ctx, {
-                  type: 'doughnut',
-                  // FIX HERE
-                  data: {
-                      labels: chartDataObj.labels,
-                      datasets: [{
-                            data: chartDataObj.data,
-                            backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]
-                        }]
-                  }
-                }
-              );
+            buildChart(singlePollData);
+            
           }
           // If there is no poll with the ID from the path
           else {
@@ -97,14 +74,15 @@ function userVoted() {
             
             // Setup data object to send to Express route
             var json = JSON.stringify(singlePollData);
-
+            console.log(json);
             var xhr = new XMLHttpRequest();
             xhr.open('PUT', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
             xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     // Figure out how to add poll data to mongo data
-                    console.log(JSON.parse(xhr.responseText));
+                    console.log("I am rebuilding the chart");
+                    buildChart(singlePollData);
                 }
                 else {
                     console.error("you suck: poll.js page");
@@ -116,21 +94,38 @@ function userVoted() {
 }
 
 
+// Function takes Mongo document and restuctures it to work with ChartJS
+// Then, builds the chart
+function buildChart(dataObj) {
+    let chartDataObj = {
+        labels: [],
+        data: []
+    }
+   
+     dataObj.answers.forEach(function(element){
+        chartDataObj.labels.push(element.label);
+        chartDataObj.data.push(element.votes);
+    });
+
+    // ChartJS code
+    var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: chartDataObj.labels,
+              datasets: [{
+                    data: chartDataObj.data,
+                    backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]
+                }]
+          }
+        }
+      );
+}
+
+
 
 
 // Example data set for Mongo
-// [
-    // {"_id":0,"title":"What is your favorite Nic Cage movie?", "data": {"labels": ["The Rock", "Ghost Rider", "Gone in 60 Seconds", "Con-Air", "The Weatherman", "National Treasure", "National Treasure 2", "Bad Lieutenant"], "datasets": [{"data": [5, 8, 12, 14, 2, 1, 7, 15], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":1,"title":"Star Wars or Star Trek?", "data": {"labels": ["Star Wars", "Star Trek"], "datasets": [{"data": [10, 1], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":2,"title":"Pepsi or Coke?", "data": {"labels": ["Pepsi", "Coke"], "datasets": [{"data": [6, 3], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":3,"title":"What is the best type of pet?", "data": {"labels": ["Dogs", "Cats", "Cheetahs"], "datasets": [{"data": [4, 6, 8], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":4,"title":"East or West Coast?", "data": {"labels": ["East Coast", "West Coast"], "datasets": [{"data": [8, 6], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":5,"title":"What brand car do you own?", "data": {"labels": ["Ford", "Toyota", "Kia"], "datasets": [{"data": [10, 1, 4], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":6,"title":"Which Chingu Cohort are you a member of?", "data": {"labels": ["Red Pandas", "Raccoons", "Rhinos", "Antelopes"], "datasets": [{"data": [10, 1, 12, 4], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":7,"title":"If you could be any animal, what would you be?", "data": {"labels": ["Penguin", "Shark", "Lion", "Bear", "Dog"], "datasets": [{"data": [3, 1, 4, 5, 2], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":8,"title":"How much wood could a woodchuck chuck...", "data": {"labels": ["I'm confused", "A lot of wood", "Not much wood"], "datasets": [{"data": [6, 2, 4], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}},
-    // {"_id":9,"title":"What is the best cookie?", "data": {"labels": ["Chocolate Chip", "Oatmeal Raisin", "Sugar"], "datasets": [{"data": [6, 5, 4], backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]}]}}
-// ]
 
 // Example flatten data object for Mongo
 // {"_id":0, "title":"What is your favourite Nic Cage movie?","answers":[{"label":"The Rock","votes": 5},{"label":"Ghost Rider","votes": 8},{"label":"Con-Air","votes": 14},{"label":"Gone in 60 Seconds","votes": 12},{"label":"The Weatherman","votes": 3},{"label":"National Treasure","votes": 19},{"label":"National Treasure 2","votes": 7},{"label":"Bad Lieutenant","votes": 2}]},
