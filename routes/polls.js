@@ -60,7 +60,6 @@ pollRouter.route('/:id/data')
               //FINISH PUT METHOD HERE
               Polls.findByIdAndUpdate(req.body._id, { $set: req.body }, function(err, poll) {
                 if (err) throw err;
-                util.inspect(poll)
                 res.json(poll);
               });
           })

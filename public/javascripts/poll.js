@@ -11,7 +11,7 @@ window.onload = function() {
     xhr.onload = function() {
         if (xhr.status === 200) {
           singlePollData = JSON.parse(xhr.responseText);
-          console.log(singlePollData);
+        //   console.log(singlePollData);
           if (singlePollData) {
             // Insert elements to the DOM
             document.getElementById('pollTitle').innerHTML = singlePollData.title;
@@ -51,16 +51,13 @@ window.onload = function() {
             // Restructure Mongo document to work with ChartJS
             let chartDataObj = {
                 labels: [],
-                datasets: [{
-                    data: []
-                }]
+                data: []
             }
-            singlePollData.answers.forEach(function(element){
+           
+             singlePollData.answers.forEach(function(element){
                 chartDataObj.labels.push(element.label);
-                chartDataObj.datasets[0].data.push(element.votes);
+                chartDataObj.data.push(element.votes);
             });
-
-            console.log(chartDataObj);
 
             // ChartJS code
             var ctx = document.getElementById("myChart");
@@ -70,7 +67,7 @@ window.onload = function() {
                   data: {
                       labels: chartDataObj.labels,
                       datasets: [{
-                            data: chartDataObj.votes,
+                            data: chartDataObj.data,
                             backgroundColor: ["#9c27b0", "#ff5722", "#795548", "#2196f3", "#e91e63", "#607d8b", "#4caf50", "#f44336", "#cddc39", "#ffeb3b", "#00bcd4", "#9e9e9e"]
                         }]
                   }
@@ -96,11 +93,9 @@ function userVoted() {
     for (let i = 0; i <= document.forms[0].length - 1; i++) {
         if (document.forms[0][i].checked) {
             var userVoteIndex = i;
-            singlePollData.data.datasets[0].data[i] = singlePollData.data.datasets[0].data[i] + 1;
+            singlePollData.answers[i].votes++;
             
             // Setup data object to send to Express route
-            // Figure out how to make this not a circular object?
-            console.log(singlePollData);
             var json = JSON.stringify(singlePollData);
 
             var xhr = new XMLHttpRequest();
@@ -138,4 +133,13 @@ function userVoted() {
 // ]
 
 // Example flatten data object for Mongo
-// {"_id":0, "title":"What is your favourite Nic Cage movie?","answers":[{"label":"The Rock","votes": 5},{"label":"Ghost Rider","votes": 8},{"label":"Con-Air","votes": 14},{"label":"Gone in 60 Seconds","votes": 12},{"label":"The Weatherman","votes": 3},{"label":"National Treasure","votes": 19},{"label":"National Treasure 2","votes": 7},{"label":"Bad Lieutenant","votes": 2}]}
+// {"_id":0, "title":"What is your favourite Nic Cage movie?","answers":[{"label":"The Rock","votes": 5},{"label":"Ghost Rider","votes": 8},{"label":"Con-Air","votes": 14},{"label":"Gone in 60 Seconds","votes": 12},{"label":"The Weatherman","votes": 3},{"label":"National Treasure","votes": 19},{"label":"National Treasure 2","votes": 7},{"label":"Bad Lieutenant","votes": 2}]},
+// {"_id":1, "title":"Star Wars or Star Trek?", "answers": [{"label": "Star Wars", "votes": 10}, {"label": "Star Trek", "votes": 1}]},
+// {"_id":2, "title":"Pepsi or Coke?", "answers": [{"label": "Pepsi", "votes": 6}, {"label": "Coke", "votes": 3}]},
+// {"_id":3, "title":"What is the best type of pet?", "answers": [{"label": "Dogs", "votes": 4}, {"label": "Cats", "votes": 6}, {"label": "Cheetahs", "votes": 8}]},
+// {"_id":4, "title":"East or West Coast?", "answers": [{"label": "East Coast", "votes": 8}, {"label": "West Coast", "votes": 6}]},
+// {"_id":5, "title":"What brand car do you own?", "answers": [{"label": "Ford", "votes": 10}, {"label": "Toyota", "votes": 1}, {"label": "Kia", "votes": 4}]},
+// {"_id":6, "title":"Which Chingu Cohort are you a member of?", "answers": [{"label": "Red Pandas", "votes": 10}, {"label": "Raccoons", "votes": 1}, {"label": "Rhinos", "votes": 12}, {"label": "Antelopes", "votes": 4}]},
+// {"_id":7, "title":"If you could be any animal, what would you be?", "answers": [{"label": "Penguin", "votes": 3}, {"label": "Shark", "votes": 1}, {"label": "Lion", "votes": 4}, {"label": "Bear", "votes": 5}, {"label": "Dog", "votes": 2}]},
+// {"_id":8, "title":"How much wood could a woodchuck chuck...", "answers": [{"label": "I'm confused", "votes": 6}, {"label": "A lot of wood", "votes": 2}, {"label": "Not much wood", "votes": 4}]},
+// {"_id":9, "title":"What is the best cookie?", "answers": [{"label": "Chocolate Chip", "votes": 6}, {"label": "Oatmeal Raisin", "votes": 5}, {"label": "Sugar", "votes": 4}]}
