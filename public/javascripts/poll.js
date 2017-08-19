@@ -93,6 +93,24 @@ function userVoted() {
     }
 }
 
+// Function that deletes current poll
+function deletePoll() {
+    let pollNumber = window.location.pathname.split("/").pop();
+    var xhr = new XMLHttpRequest();
+    xhr.open('DELETE', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
+    xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Figure out how to delete poll in Mongo
+            console.log("I am deleting the poll");
+        }
+        else {
+            console.error("you suck: poll.js page");
+        }
+    }
+    xhr.send(pollNumber);
+}
+
 
 // Function takes Mongo document and restuctures it to work with ChartJS
 // Then, builds the chart

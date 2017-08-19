@@ -64,8 +64,9 @@ pollRouter.route('/:id/data')
           })
           // Method to delete individual poll
           .delete(function(req, res, next) {
-            Polls.findByIdAndRemove(req.params.id, function(err, resp) {
+            Polls.findByIdAndRemove(req.body, function(err, resp) {
               if (err) throw err;
+              console.log(req.body);
               res.json(resp);
             });
           });
