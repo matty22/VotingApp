@@ -96,19 +96,22 @@ function userVoted() {
 // Function that deletes current poll
 function deletePoll() {
     let pollNumber = window.location.pathname.split("/").pop();
+
+    var json = JSON.stringify(singlePollData)
     var xhr = new XMLHttpRequest();
     xhr.open('DELETE', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
     xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
     xhr.onload = function() {
         if (xhr.status === 200) {
-            // Figure out how to delete poll in Mongo
-            console.log("I am deleting the poll");
+            // Redirect to /polls page upon poll deletion
+            let redirectURL = JSON.parse(xhr.responseText);
+            window.location = redirectURL.redirect;
         }
         else {
             console.error("you suck: poll.js page");
         }
     }
-    xhr.send(pollNumber);
+    xhr.send(json);
 }
 
 
