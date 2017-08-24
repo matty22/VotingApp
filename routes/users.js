@@ -1,14 +1,29 @@
 var express = require('express');
-var router = express.Router();
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
-/* GET users listing. */
-router.get('/login', function(req, res, next) {
+// Set up Mongoose schema
+var Users = require('../models/users');
+
+var userRouter = express.Router();
+userRouter.use(bodyParser.json());
+
+// This route just renders the login page
+userRouter.get('/login', function(req, res, next) {
   res.render('../public/login');
 });
 
-router.get('/signup', function(req, res, next) {
-  // res.set('Content-Type', 'application/javascript');
+// This route just renders the signup page
+userRouter.get('/signup', function(req, res, next) {
   res.render('../public/signup');
 });
 
-module.exports = router;
+userRouter.route('/signup/data')
+          .post(function(req, res, next) {
+            Users.create({email: req.body.email, password: req.body.password, pollsCreated: req.body.pollsCreated}, function(err, poll) {
+              if (err) throw err;
+              res.send({redirect: '/polls'});
+            });
+          });
+
+module.exports = userRouter;
