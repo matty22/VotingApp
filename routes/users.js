@@ -27,22 +27,15 @@ userRouter.route('/signup/data')
           });
 
 userRouter.route('/login/data')
-          .get(function(req, res, next) {
-            Users.findOne({'user.email': req.body.email}, 'email password', function(err, user) {
+          .post(function(req, res, next) {
+            console.log(req.body);
+            Users.findOne({'user.email': req.body.email}, function(err, user) {
               if (err) throw err;
               if (user) {
-
-                res.send(req.body.password);
+                res.send(req.body);
+              } else {
+                res.send("not working");
               }
-              // if (user) {
-              //   if (user.password === req.body.password) {
-              //     res.send("Successful login");
-              //   } else {
-              //     res.send("Invalid Password");
-              //   }
-              // } else {
-              //   res.send("No known user with that email address");
-              // }
             });
           });
 

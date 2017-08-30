@@ -21,7 +21,8 @@ db.once('open', function() {
 });
 
 // Database operations module
-var operations = require('./operations');
+// Not sure this is still necessary
+// var operations = require('./operations');
 
 var index = require('./routes/index');
 var polls = require('./routes/polls');
