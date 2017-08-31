@@ -12,6 +12,7 @@ function login() {
   var json = JSON.stringify(userObj);
   var xhr = new XMLHttpRequest();
   xhr.open('POST', 'http://localhost:3000/users/login/data');
+  xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
   xhr.onload = function() {
       if (xhr.status === 200) {
         // let redirectURL = JSON.parse(xhr.responseText);

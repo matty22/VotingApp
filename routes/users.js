@@ -8,11 +8,6 @@ var Users = require('../models/users');
 var userRouter = express.Router();
 userRouter.use(bodyParser.json());
 
-// This route just renders the login page
-userRouter.get('/login', function(req, res, next) {
-  res.render('../public/login');
-});
-
 // This route just renders the signup page
 userRouter.get('/signup', function(req, res, next) {
   res.render('../public/signup');
@@ -26,17 +21,23 @@ userRouter.route('/signup/data')
             });
           });
 
+// This route just renders the login page
+userRouter.get('/login', function(req, res, next) {
+  res.render('../public/login');
+});
+
 userRouter.route('/login/data')
           .post(function(req, res, next) {
-            console.log(req.body);
-            Users.findOne({'user.email': req.body.email}, function(err, user) {
-              if (err) throw err;
-              if (user) {
-                res.send(req.body);
-              } else {
-                res.send("not working");
-              }
-            });
+            Users.find({'email': req.body.email})
+                 .where('password').equals(req.body.password)
+                 .exec(function(err, user) {
+                   if (err) throw err;
+                   if (user) {
+                     res.send(user);
+                   } else {
+                     res.send('Bad Login');
+                   }
+                 })
           });
 
 module.exports = userRouter;
