@@ -15,9 +15,15 @@ userRouter.get('/signup', function(req, res, next) {
 
 userRouter.route('/signup/data')
           .post(function(req, res, next) {
-            Users.create({email: req.body.email, password: req.body.password, pollsCreated: req.body.pollsCreated}, function(err, poll) {
+            Users.create({email: req.body.email, password: req.body.password, pollsVoted: req.body.pollsVoted}, function(err, user) {
               if (err) throw err;
-              res.send({redirect: '/polls'});
+              if (user) {
+                res.send({redirect: '/polls'});
+              }
+              else {
+                res.writeHead(401);
+                res.end("Bad Signup");
+              }
             });
           });
 
@@ -32,10 +38,10 @@ userRouter.route('/login/data')
                  .where('password').equals(req.body.password)
                  .exec(function(err, user) {
                    if (err) throw err;
-                   console.log(user);
                    if (user[0]) {
+                     user.redirect = '/polls'
                      res.setHeader('Set-Cookie', ['type=login', 'language=javascript', 'path=/']);
-                     res.send({redirect: '/polls'});
+                     res.send(user);
                    } else {
                      res.writeHead(401);
                      res.end('Bad Login');

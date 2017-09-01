@@ -1,4 +1,8 @@
 
+#navLogin, #navSignup {
+  display: none;
+}
+
 #pollTitle {
   align-self: center;
 }

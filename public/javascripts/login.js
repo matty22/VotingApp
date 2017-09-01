@@ -1,11 +1,10 @@
 // Function that creates new User object and sends it to Mongo
 function login() {
-  
   let userObj = {};
 
   userObj.email = document.getElementById('email').value;
   userObj.password = document.getElementById('password').value;
-  userObj.pollsCreated = [null];
+  userObj.pollsVoted = [null];
 
 
   // Setup data object to send to Express route
@@ -16,8 +15,11 @@ function login() {
   xhr.onload = function() {
       if (xhr.status === 200) {
         document.cookie = 'name=validLogin; path=/'
-        let redirectURL = JSON.parse(xhr.responseText);
-        window.location = redirectURL.redirect;
+        console.log(xhr.responseText);
+        sessionStorage.setItem('user', xhr.responseText)
+        // let redirectURL = JSON.parse(xhr.responseText);
+        // window.location = redirectURL.redirect;
+        window.location = '/polls';
       }
       else {
         document.getElementById('invalidLogin').style.display = 'inline-block';

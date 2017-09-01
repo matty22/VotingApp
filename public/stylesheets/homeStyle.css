@@ -40,6 +40,10 @@ nav ul li:first-child a {
   color: gold;
 }
 
+#navLogin, #navSignup {
+  display: none;
+}
+
 main {
   flex: 1;
   display: flex;

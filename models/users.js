@@ -12,7 +12,7 @@ var userSchema = new Schema({
     type: String,
     required: true
   },
-  pollsCreated: {
+  pollsVoted: {
     type: Array,
     required: true
   }}, 

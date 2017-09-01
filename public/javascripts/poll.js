@@ -5,6 +5,9 @@ window.onload = function() {
     // If there is a cookie from login or signup, allow user to delete polls
     if (document.cookie) {
         document.getElementById('deleteButton').style.display = 'inline-block';
+    } else {
+        document.getElementById('navLogin').style.display = 'inline-block';
+        document.getElementById('navSignup').style.display = 'inline-block';
     }
     // Peel off the last part of the URI path to find the poll id
     let pollNumber = window.location.pathname.split("/").pop();

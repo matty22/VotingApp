@@ -70,6 +70,14 @@ button:hover {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
+#invalidLogin {
+  background-color: #ff7691;
+  border: 1px solid #ff0033;
+  color: #ffffff;
+  padding: 10px 5px;
+  display: none;
+}
+
 footer {
   background-color: #ebebeb;
 }
