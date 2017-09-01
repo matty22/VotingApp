@@ -55,6 +55,7 @@ input[type="button"]:hover {
   margin-bottom: 20px;
   margin-right: 50px;
   transition: 0.3s;
+  display: none;
 }
 
 #deleteButton:hover {

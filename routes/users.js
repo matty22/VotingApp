@@ -32,10 +32,13 @@ userRouter.route('/login/data')
                  .where('password').equals(req.body.password)
                  .exec(function(err, user) {
                    if (err) throw err;
-                   if (user) {
-                     res.send(user);
+                   console.log(user);
+                   if (user[0]) {
+                     res.setHeader('Set-Cookie', ['type=login', 'language=javascript', 'path=/']);
+                     res.send({redirect: '/polls'});
                    } else {
-                     res.send('Bad Login');
+                     res.writeHead(401);
+                     res.end('Bad Login');
                    }
                  })
           });
