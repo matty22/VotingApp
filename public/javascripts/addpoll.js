@@ -27,8 +27,6 @@ function pollCreated() {
   document.querySelectorAll('[id^=answer]').forEach(function(element) {
     formObj.answers.push({"label": element.value, "votes": 0})
   });
-  console.log(formObj);
-
 
   // Setup data object to send to Express route
   var json = JSON.stringify(formObj);

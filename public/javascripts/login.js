@@ -15,10 +15,8 @@ function login() {
   xhr.onload = function() {
       if (xhr.status === 200) {
         document.cookie = 'name=validLogin; path=/'
-        console.log(xhr.responseText);
-        sessionStorage.setItem('user', xhr.responseText)
-        // let redirectURL = JSON.parse(xhr.responseText);
-        // window.location = redirectURL.redirect;
+        // Only necessary if I'm going to try to prevent double votes
+        // sessionStorage.setItem('user', xhr.responseText)
         window.location = '/polls';
       }
       else {

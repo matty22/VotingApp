@@ -18,7 +18,6 @@ window.onload = function() {
     xhr.onload = function() {
         if (xhr.status === 200) {
           singlePollData = JSON.parse(xhr.responseText);
-        //   console.log(singlePollData);
           if (singlePollData) {
             // Insert elements to the DOM
             document.getElementById('pollTitle').innerHTML = singlePollData.title;
@@ -75,20 +74,18 @@ window.onload = function() {
 function userVoted() {
     let pollNumber = window.location.pathname.split("/").pop();
     for (let i = 0; i <= document.forms[0].length - 1; i++) {
-        if (document.forms[0][i].checked) {
+        if (document.forms[0][i].checked && userVotingInfo[0].pollsVoted.indexOf(pollNumber) === -1) {
             var userVoteIndex = i;
             singlePollData.answers[i].votes++;
             
             // Setup data object to send to Express route
             var json = JSON.stringify(singlePollData);
-            console.log(json);
             var xhr = new XMLHttpRequest();
             xhr.open('PUT', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
             xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     // Figure out how to add poll data to mongo data
-                    console.log("I am rebuilding the chart");
                     buildChart(singlePollData);
                 }
                 else {
