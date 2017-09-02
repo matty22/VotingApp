@@ -15,7 +15,7 @@ function userCreated() {
     xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
     xhr.onload = function() {
         if (xhr.status === 200) {
-          document.cookie = 'name=validLogin; path=/'
+          document.cookie = 'name=validLogin; path=/; Secure; HttpOnly'
           let redirectURL = JSON.parse(xhr.responseText);
           window.location = redirectURL.redirect;
         }
