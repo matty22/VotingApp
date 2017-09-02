@@ -8,10 +8,8 @@ var mongoose = require('mongoose');
 
 // Production Database connection URL
 var url = process.env.MONGOURL;
-// mongodb://matty22:L!llyP0nd@ds034807.mlab.com:34807/votingapp
 
 // Localhost Database connection URL
-// Remove for production
 // var url = 'mongodb://localhost:27017/polls';
 mongoose.connect(url);
 var db = mongoose.connection;

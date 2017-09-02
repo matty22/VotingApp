@@ -151,8 +151,6 @@ function buildChart(dataObj) {
 
 
 // Example data set for Mongo
-
-// Example flatten data object for Mongo
 // {"_id":0, "title":"What is your favourite Nic Cage movie?","answers":[{"label":"The Rock","votes": 5},{"label":"Ghost Rider","votes": 8},{"label":"Con-Air","votes": 14},{"label":"Gone in 60 Seconds","votes": 12},{"label":"The Weatherman","votes": 3},{"label":"National Treasure","votes": 19},{"label":"National Treasure 2","votes": 7},{"label":"Bad Lieutenant","votes": 2}]},
 // {"_id":1, "title":"Star Wars or Star Trek?", "answers": [{"label": "Star Wars", "votes": 10}, {"label": "Star Trek", "votes": 1}]},
 // {"_id":2, "title":"Pepsi or Coke?", "answers": [{"label": "Pepsi", "votes": 6}, {"label": "Coke", "votes": 3}]},
