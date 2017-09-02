@@ -14,7 +14,7 @@ window.onload = function() {
     var actionPath = "/polls/" + pollNumber + "/data";
     document.getElementById("pollOptionsForm").setAttribute("action", actionPath);
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
+    xhr.open('GET', 'https://votetastic-votingmachine.herokuapp.com/polls/' + pollNumber + '/data', true);
     xhr.onload = function() {
         if (xhr.status === 200) {
           singlePollData = JSON.parse(xhr.responseText);
@@ -81,7 +81,7 @@ function userVoted() {
             // Setup data object to send to Express route
             var json = JSON.stringify(singlePollData);
             var xhr = new XMLHttpRequest();
-            xhr.open('PUT', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
+            xhr.open('PUT', 'https://votetastic-votingmachine.herokuapp.com/polls/' + pollNumber + '/data', true);
             xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
             xhr.onload = function() {
                 if (xhr.status === 200) {
@@ -103,7 +103,7 @@ function deletePoll() {
 
     var json = JSON.stringify(singlePollData)
     var xhr = new XMLHttpRequest();
-    xhr.open('DELETE', 'http://localhost:3000/polls/' + pollNumber + '/data', true);
+    xhr.open('DELETE', 'https://votetastic-votingmachine.herokuapp.com/polls/' + pollNumber + '/data', true);
     xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
     xhr.onload = function() {
         if (xhr.status === 200) {
