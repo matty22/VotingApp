@@ -74,7 +74,7 @@ window.onload = function() {
 function userVoted() {
     let pollNumber = window.location.pathname.split("/").pop();
     for (let i = 0; i <= document.forms[0].length - 1; i++) {
-        if (document.forms[0][i].checked && userVotingInfo[0].pollsVoted.indexOf(pollNumber) === -1) {
+        if (document.forms[0][i].checked) {
             var userVoteIndex = i;
             singlePollData.answers[i].votes++;
             
