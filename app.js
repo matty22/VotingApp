@@ -7,12 +7,12 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 // Production Database connection URL
-// var dbUrl = process.env.MONGOURL;
+var url = process.env.MONGOURL;
 // mongodb://matty22:L!llyP0nd@ds034807.mlab.com:34807/votingapp
 
 // Localhost Database connection URL
 // Remove for production
-var url = 'mongodb://localhost:27017/polls';
+// var url = 'mongodb://localhost:27017/polls';
 mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
