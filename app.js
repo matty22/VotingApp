@@ -17,10 +17,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 });
 
-// Database operations module
-// Not sure this is still necessary
-// var operations = require('./operations');
-
 var index = require('./routes/index');
 var polls = require('./routes/polls');
 var users = require('./routes/users');

@@ -31,7 +31,7 @@ function pollCreated() {
   // Setup data object to send to Express route
   var json = JSON.stringify(formObj);
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://votetastic-votingmachine.herokuapp.com/polls/add/data', true);
+  xhr.open('POST', 'http://votetastic-votingmachine.herokuapp.com/polls/add/data', true);
   xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
   xhr.onload = function() {
       if (xhr.status === 200) {

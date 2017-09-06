@@ -9,7 +9,7 @@ window.onload = function() {
         document.getElementById('navSignup').style.display = 'inline-block';
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://votetastic-votingmachine.herokuapp.com/polls/data', true);
+    xhr.open('GET', 'http://votetastic-votingmachine.herokuapp.com/polls/data', true);
     xhr.onload = function() {
         if (xhr.status === 200) {
           var pollsData = JSON.parse(xhr.responseText);

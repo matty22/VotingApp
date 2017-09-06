@@ -14,7 +14,7 @@ window.onload = function() {
     var actionPath = "/polls/" + pollNumber + "/data";
     document.getElementById("pollOptionsForm").setAttribute("action", actionPath);
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://votetastic-votingmachine.herokuapp.com/polls/' + pollNumber + '/data', true);
+    xhr.open('GET', 'http://votetastic-votingmachine.herokuapp.com/polls/' + pollNumber + '/data', true);
     xhr.onload = function() {
         if (xhr.status === 200) {
           singlePollData = JSON.parse(xhr.responseText);
