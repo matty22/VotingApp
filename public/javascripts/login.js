@@ -10,7 +10,7 @@ function login() {
   // Setup data object to send to Express route
   var json = JSON.stringify(userObj);
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://votetastic-votingmachine.herokuapp.com/users/login/data');
+  xhr.open('POST', 'https://votetastic-votingmachine.herokuapp.com/users/login/data');
   xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
   xhr.onload = function() {
       if (xhr.status === 200) {
