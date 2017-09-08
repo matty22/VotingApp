@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var idTracker = 10;
+var idTracker = 100;
 
 // Set up Mongoose schema
 var Polls = require('../models/polls');
