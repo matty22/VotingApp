@@ -33,6 +33,7 @@ pollRouter.get('/add', function(req, res, next) {
 pollRouter.route('/add/data')
           // Method to create new poll
           .post(function(req, res, next) {
+            console.log(req.body);
             Polls.create({_id: idTracker, title: req.body.title, answers: req.body.answers}, function(err, poll) {
               if (err) throw err;
               idTracker = idTracker + 1;
