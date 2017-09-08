@@ -1,4 +1,12 @@
 
+window.onload = function() {
+  // If there is a cookie from login or signup, allow user to delete polls
+  if (!document.cookie) {
+    document.getElementById('navLogin').style.display = 'inline-block';
+    document.getElementById('navSignup').style.display = 'inline-block';
+}
+}
+
 function addPollAnswer() {
   let optionsLength = document.forms[0].length - 2;
   if (optionsLength < 12) {
